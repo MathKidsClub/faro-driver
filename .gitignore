@@ -1,0 +1,13 @@
+/app/
+/bin/
+/obj/
+/vendor/
+/.venv/
+__pycache__/
+*.pyc
+*.dll
+*.exe
+*.pdb
+*.log
+*.csv
+*.json

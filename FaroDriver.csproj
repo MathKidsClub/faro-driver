@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>FaroDriver</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <VendorDir Condition="'$(VendorDir)' == ''">$(MSBuildThisFileDirectory)vendor</VendorDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FaroArm.Interfaces"><HintPath>$(VendorDir)\FaroArm.Interfaces.dll</HintPath></Reference>
+    <Reference Include="FaroArm.Net"><HintPath>$(VendorDir)\FaroArm.Net.dll</HintPath></Reference>
+    <Reference Include="NetMQ"><HintPath>$(VendorDir)\NetMQ.dll</HintPath></Reference>
+    <Reference Include="AsyncIO"><HintPath>$(VendorDir)\AsyncIO.dll</HintPath></Reference>
+    <Reference Include="Newtonsoft.Json"><HintPath>$(VendorDir)\Newtonsoft.Json.dll</HintPath></Reference>
+    <Reference Include="NaCl"><HintPath>$(VendorDir)\NaCl.dll</HintPath></Reference>
+    <Reference Include="System.Memory"><HintPath>$(VendorDir)\System.Memory.dll</HintPath></Reference>
+    <Reference Include="System.Buffers"><HintPath>$(VendorDir)\System.Buffers.dll</HintPath></Reference>
+    <Reference Include="System.Numerics.Vectors"><HintPath>$(VendorDir)\System.Numerics.Vectors.dll</HintPath></Reference>
+    <RuntimeDependency Include="$(VendorDir)\FaroArm.Interfaces.dll;$(VendorDir)\FaroArm.Net.dll;$(VendorDir)\FaroArm.Native.dll;$(VendorDir)\NetMQ.dll;$(VendorDir)\AsyncIO.dll;$(VendorDir)\Newtonsoft.Json.dll;$(VendorDir)\NaCl.dll;$(VendorDir)\System.Memory.dll;$(VendorDir)\System.Buffers.dll;$(VendorDir)\System.Numerics.Vectors.dll;$(VendorDir)\System.Runtime.CompilerServices.Unsafe.dll;$(VendorDir)\System.Threading.Tasks.Extensions.dll" />
+    <None Include="@(RuntimeDependency)" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="CheckLocalDependencies" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('%(RuntimeDependency.Identity)')" Text="Missing local dependency: %(RuntimeDependency.Identity). See README.md; vendor binaries are not included in this repository." />
+  </Target>
+</Project>
